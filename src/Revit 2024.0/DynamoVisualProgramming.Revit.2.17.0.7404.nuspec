@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>DynamoVisualProgramming.Revit</id>
+    <version>2.17.0.7404</version>
+    <title>DynamoRevit 2020 to 20##</title>
+    <authors>john p</authors>
+    <owners>john p</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <icon>dynamo.png</icon>
+    <projectUrl>https://dynamobim.org/</projectUrl>
+    <description>Dynamo libraries for Revit. It contains the following files:
+1) RevitNodes.dll
+2) RevitServices.dll
+3) DynamoRevitDS.dll
+4) DSRevitNodesUI.dll
+
+
+(This package was inspired by the Revit_All_Main_Versions package from Matthew.Taylor)</description>
+    <summary>Revit 2024.0</summary>
+    <releaseNotes>This version is for Revit 2024.0</releaseNotes>
+    <copyright>Autodesk, Ian Keough</copyright>
+    <tags>Dynamo for Revit, DynamoRevit</tags>
+  </metadata>
+  <files>
+    <file src="lib\DynamoRevitDS.dll" target="lib\DynamoRevitDS.dll" />
+	<file src="lib\DSRevitNodesUI.dll" target="lib\DSRevitNodesUI.dll" />
+    <file src="lib\RevitNodes.dll" target="lib\RevitNodes.dll" />
+    <file src="lib\RevitServices.dll" target="lib\RevitServices.dll" />
+    <file src="tools\install.ps1" target="tools\install.ps1" />
+    <file src="dynamo.png" target="dynamo.png" />
+    <file src="License.txt" target="License.txt" />
+  </files>
+</package>
