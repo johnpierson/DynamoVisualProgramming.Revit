@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
   <metadata>
     <id>DynamoVisualProgramming.Revit</id>
-    <version>2.6.2.18430</version>
+    <version>2.5.0.7586</version>
     <title>DynamoRevit 2020 to 20##</title>
     <authors>john p</authors>
     <owners>john p</owners>
@@ -17,14 +17,14 @@
 
 
 (This package was inspired by the Revit_All_Main_Versions package from Matthew.Taylor)</description>
-    <summary>Revit 2021.1</summary>
-    <releaseNotes>This version is for Revit 2021.1</releaseNotes>
+    <summary>Revit 2021.0</summary>
+    <releaseNotes>This version is for Revit 2021.0</releaseNotes>
     <copyright>Autodesk, Ian Keough</copyright>
     <tags>Dynamo for Revit, DynamoRevit</tags>
   </metadata>
   <files>
+    <file src="lib\DSRevitNodesUI.dll" target="lib\DSRevitNodesUI.dll" />
     <file src="lib\DynamoRevitDS.dll" target="lib\DynamoRevitDS.dll" />
-	<file src="lib\DSRevitNodesUI.dll" target="lib\DSRevitNodesUI.dll" />
     <file src="lib\RevitNodes.dll" target="lib\RevitNodes.dll" />
     <file src="lib\RevitServices.dll" target="lib\RevitServices.dll" />
     <file src="tools\install.ps1" target="tools\install.ps1" />
