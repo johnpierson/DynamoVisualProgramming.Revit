@@ -1,0 +1,53 @@
+name: Publish NuGet Packages to GitHub Packages
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'src/**'
+  workflow_dispatch:
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+      contents: read
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: nuget/setup-nuget@v2
+        with:
+          nuget-version: latest
+
+      - name: Add GitHub Packages source
+        run: |
+          nuget sources add \
+            -Name "github" \
+            -Source "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json" \
+            -Username "${{ github.actor }}" \
+            -Password "${{ secrets.GITHUB_TOKEN }}" \
+            -StorePasswordInClearText
+
+      - name: Pack missing .nupkg files
+        run: |
+          find src -name "*.nuspec" -print0 | while IFS= read -r -d '' nuspec; do
+            dir=$(dirname "$nuspec")
+            if ! find "$dir" -maxdepth 1 -name "*.nupkg" -print -quit | grep -q .; then
+              echo "Packing: $nuspec"
+              nuget pack "$nuspec" -BasePath "$dir" -OutputDirectory "$dir"
+            else
+              echo "Already packed, skipping: $nuspec"
+            fi
+          done
+
+      - name: Publish all packages
+        run: |
+          find src -name "*.nupkg" -print0 | while IFS= read -r -d '' pkg; do
+            echo "Publishing: $pkg"
+            nuget push "$pkg" \
+              -Source "github" \
+              -ApiKey "${{ secrets.GITHUB_TOKEN }}" \
+              -SkipDuplicate
+          done
