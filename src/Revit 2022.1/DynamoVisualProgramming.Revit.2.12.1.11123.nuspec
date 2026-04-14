@@ -19,7 +19,7 @@
 (This package was inspired by the Revit_All_Main_Versions package from Matthew.Taylor)</description>
     <summary>Revit 2022.1</summary>
     <releaseNotes>This version is for Revit 2022.1</releaseNotes>
-    <copyright>Autodesk, Ian Keough</copyright>
+    <copyright>Autodesk</copyright>
     <tags>Dynamo for Revit, DynamoRevit</tags>
   </metadata>
   <files>
