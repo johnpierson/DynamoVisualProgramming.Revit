@@ -17,18 +17,17 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: nuget/setup-nuget@v2
+      - uses: actions/setup-dotnet@v4
         with:
-          nuget-version: latest
+          dotnet-version: '8.0.x'
 
       - name: Add GitHub Packages source
         run: |
-          nuget sources add \
-            -Name "github" \
-            -Source "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json" \
-            -Username "${{ github.actor }}" \
-            -Password "${{ secrets.GITHUB_TOKEN }}" \
-            -StorePasswordInClearText
+          dotnet nuget add source "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json" \
+            --name "github" \
+            --username "${{ github.actor }}" \
+            --password "${{ secrets.GITHUB_TOKEN }}" \
+            --store-password-in-clear-text
 
       - name: Pack missing .nupkg files
         run: |
@@ -36,7 +35,7 @@ jobs:
             dir=$(dirname "$nuspec")
             if ! find "$dir" -maxdepth 1 -name "*.nupkg" -print -quit | grep -q .; then
               echo "Packing: $nuspec"
-              nuget pack "$nuspec" -BasePath "$dir" -OutputDirectory "$dir"
+              dotnet pack "$dir" -c Release -o "$dir"
             else
               echo "Already packed, skipping: $nuspec"
             fi
@@ -46,8 +45,8 @@ jobs:
         run: |
           find src -name "*.nupkg" -print0 | while IFS= read -r -d '' pkg; do
             echo "Publishing: $pkg"
-            nuget push "$pkg" \
-              -Source "github" \
-              -ApiKey "${{ secrets.GITHUB_TOKEN }}" \
-              -SkipDuplicate
+            dotnet nuget push "$pkg" \
+              --source "github" \
+              --api-key "${{ secrets.GITHUB_TOKEN }}" \
+              --skip-duplicate
           done
