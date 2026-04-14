@@ -21,6 +21,8 @@ jobs:
         with:
           dotnet-version: '8.0.x'
 
+      - uses: NuGet/setup-nuget@v2
+
       - name: Add GitHub Packages source
         run: |
           dotnet nuget add source "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json" \
@@ -35,7 +37,7 @@ jobs:
             dir=$(dirname "$nuspec")
             if ! find "$dir" -maxdepth 1 -name "*.nupkg" -print -quit | grep -q .; then
               echo "Packing: $nuspec"
-              dotnet pack "$dir" -c Release -o "$dir"
+              nuget pack "$nuspec" -OutputDirectory "$dir"
             else
               echo "Already packed, skipping: $nuspec"
             fi
