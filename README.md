@@ -98,19 +98,55 @@ Below is a complete example showing how to set up a project that targets multipl
 </Project>
 ```
 
-### NuGet Package Source
+### Package Source
 
-The packages are available on [NuGet.org](https://www.nuget.org/packages/DynamoVisualProgramming.Revit/).
+The packages are published to [GitHub Packages](https://github.com/johnpierson/DynamoVisualProgramming.Revit/pkgs/nuget/DynamoVisualProgramming.Revit).
 
-You can also install a specific version via the .NET CLI:
+#### Adding the GitHub Packages source
+
+Before restoring or installing, add the GitHub Packages feed. You will need a [GitHub Personal Access Token (classic)](https://github.com/settings/tokens) with the `read:packages` scope.
+
+**Via the .NET CLI:**
 
 ```shell
-dotnet add package DynamoVisualProgramming.Revit --version 2.19.*
+dotnet nuget add source "https://nuget.pkg.github.com/johnpierson/index.json" \
+  --name "github-johnpierson" \
+  --username YOUR_GITHUB_USERNAME \
+  --password YOUR_GITHUB_PAT \
+  --store-password-in-clear-text
 ```
 
-Or via the NuGet Package Manager Console in Visual Studio:
+**Via a `nuget.config` file** (recommended for checked-in projects):
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<configuration>
+  <packageSources>
+    <add key="github-johnpierson"
+         value="https://nuget.pkg.github.com/johnpierson/index.json" />
+  </packageSources>
+  <packageSourceCredentials>
+    <github-johnpierson>
+      <add key="Username" value="YOUR_GITHUB_USERNAME" />
+      <add key="ClearTextPassword" value="YOUR_GITHUB_PAT" />
+    </github-johnpierson>
+  </packageSourceCredentials>
+</configuration>
+```
+
+> **Tip:** Store credentials as environment variables or CI secrets rather than committing them. You can reference them with `%GITHUB_PAT%` (Windows) or `$GITHUB_PAT` (Linux/macOS) in your `nuget.config`.
+
+#### Installing a specific version
+
+Via the .NET CLI:
+
+```shell
+dotnet add package DynamoVisualProgramming.Revit --version 2.19.* --source github-johnpierson
+```
+
+Via the NuGet Package Manager Console in Visual Studio:
 
 ```powershell
-Install-Package DynamoVisualProgramming.Revit -Version 2.19.3.10292
+Install-Package DynamoVisualProgramming.Revit -Version 2.19.3.10292 -Source github-johnpierson
 ```
 
